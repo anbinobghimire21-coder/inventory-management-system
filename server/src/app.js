@@ -2,13 +2,15 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const multer = require("multer");
-
+const authRoutes = require("./routes/authRoutes");
+const authMiddleware = require("./middleware/authMiddleware");
 const supplierRoutes = require("./routes/supplierRoutes");
 const productRoutes = require("./routes/productRoutes");
 
 const app = express();
 
 // General middleware
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -28,8 +30,19 @@ app.get("/api/health", (req, res) => {
 });
 
 // API routes
-app.use("/api/suppliers", supplierRoutes);
-app.use("/api/products", productRoutes);
+app.use("/api/auth", authRoutes);
+
+app.use(
+  "/api/suppliers",
+  authMiddleware,
+  supplierRoutes
+);
+
+app.use(
+  "/api/products",
+  authMiddleware,
+  productRoutes
+);
 
 // 404 handler
 app.use((req, res) => {
