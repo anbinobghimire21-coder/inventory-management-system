@@ -1,26 +1,10 @@
 import { Routes, Route } from "react-router-dom";
 
 import LoginPage from "./pages/LoginPage";
+import DashboardPage from "./pages/DashboardPage";
+import ProductsPage from "./pages/products/ProductsPage";
+import AddProductPage from "./pages/products/AddProductPage";
 import ProtectedRoute from "./components/ProtectedRoute";
-import useAuth from "./context/useAuth";
-
-const Dashboard = () => {
-  const { user, logout } = useAuth();
-
-  return (
-    <div>
-      <h1>Inventory Dashboard</h1>
-
-      <p>
-        Logged in as: {user?.username}
-      </p>
-
-      <button onClick={logout}>
-        Logout
-      </button>
-    </div>
-  );
-};
 
 const App = () => {
   return (
@@ -34,7 +18,25 @@ const App = () => {
         path="/"
         element={
           <ProtectedRoute>
-            <Dashboard />
+            <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/products"
+        element={
+          <ProtectedRoute>
+            <ProductsPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/products/new"
+        element={
+          <ProtectedRoute>
+            <AddProductPage />
           </ProtectedRoute>
         }
       />
