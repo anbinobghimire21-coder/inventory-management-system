@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Environment variables
+.env
+client/.env
+server/.env
+
+# Build files
+dist/
+client/dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# macOS
+.DS_Store
+
+# SQLite database files
+*.sqlite
+*.sqlite3
+
+# Uploaded development files
+server/uploads/*
+!server/uploads/.gitkeep
