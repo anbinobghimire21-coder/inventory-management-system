@@ -6,7 +6,9 @@ import ProductsPage from "./pages/products/ProductsPage";
 import AddProductPage from "./pages/products/AddProductPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import EditProductPage from "./pages/products/EditProductPage";
-
+import SuppliersPage from "./pages/suppliers/SuppliersPage";
+import AddSupplierPage from "./pages/suppliers/AddSupplierPage";
+import EditSupplierPage from "./pages/suppliers/EditSupplierPage";
 const App = () => {
   return (
     <Routes>
@@ -54,6 +56,31 @@ const App = () => {
   element={
     <ProtectedRoute>
       <EditProductPage />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/suppliers"
+  element={
+    <ProtectedRoute>
+      <SuppliersPage />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/suppliers/new"
+  element={
+    <ProtectedRoute>
+      <AddSupplierPage />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/suppliers/:id/edit"
+  element={
+    <ProtectedRoute>
+      <EditSupplierPage />
     </ProtectedRoute>
   }
 />

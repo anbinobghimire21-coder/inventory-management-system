@@ -15,7 +15,7 @@ const DashboardPage = () => {
           <div className="nav-links">
             <Link to="/">Overview</Link>
             <Link to="/products">Products</Link>
-            <span>Suppliers</span>
+            <Link to="/suppliers">Suppliers</Link>
           </div>
 
           <button
@@ -89,13 +89,16 @@ const DashboardPage = () => {
             </p>
           </Link>
 
-          <div className="quick-card">
-            <span>02</span>
-            <h3>Suppliers</h3>
-            <p>
-              Keep supplier contact information organised.
-            </p>
-          </div>
+          <Link
+  to="/suppliers"
+  className="quick-card"
+>
+  <span>02</span>
+  <h3>Suppliers</h3>
+  <p>
+    Keep supplier contact information organised.
+  </p>
+</Link>
 
           <div className="quick-card">
             <span>03</span>
