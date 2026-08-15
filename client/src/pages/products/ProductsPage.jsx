@@ -195,9 +195,12 @@ useEffect(() => {
                       </span>
                     </div>
 
-                    <button className="card-button">
-                      View Product
-                    </button>
+                    <Link
+  to={`/products/${product.id}`}
+  className="card-button product-view-link"
+>
+  View Product
+</Link>
                   </div>
                 </article>
               );
