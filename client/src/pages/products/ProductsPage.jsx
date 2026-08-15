@@ -79,7 +79,7 @@ useEffect(() => {
           <div className="nav-links dark-links">
             <Link to="/">Overview</Link>
             <Link to="/products">Products</Link>
-            <span>Suppliers</span>
+            <Link to="/suppliers">Suppliers</Link>
           </div>
         </nav>
 

@@ -728,3 +728,93 @@ a:hover {
   border-radius: 10px;
   padding: 10px;
 }
+.supplier-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fill, minmax(300px, 1fr));
+  gap: 18px;
+}
+
+.supplier-card {
+  background: white;
+  border: 1px solid #dfe5df;
+  border-radius: 18px;
+  padding: 26px;
+}
+
+.supplier-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.supplier-number {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 10px;
+  color: #7a877c;
+}
+
+.supplier-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #315c3d;
+}
+
+.supplier-card h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 30px;
+  font-weight: 400;
+  margin: 34px 0 28px;
+}
+
+.supplier-contact {
+  display: grid;
+  gap: 16px;
+}
+
+.supplier-contact span {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #839087;
+}
+
+.supplier-contact p {
+  margin: 5px 0 0;
+  color: #405047;
+}
+
+.supplier-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.supplier-edit {
+  display: block;
+  text-align: center;
+}
+
+.supplier-delete {
+  background: #fff3f1;
+  border: 1px solid #e8b9b3;
+  color: #a0322c;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.empty-state {
+  background: white;
+  border: 1px solid #dfe5df;
+  padding: 45px;
+  border-radius: 18px;
+  text-align: center;
+}
+
+.empty-state p {
+  color: #718075;
+}
