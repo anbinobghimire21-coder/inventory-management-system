@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+
 const { User } = require("../models");
 
 const createAdmin = async () => {
@@ -7,31 +8,65 @@ const createAdmin = async () => {
     const password = process.env.ADMIN_PASSWORD;
 
     if (!username || !password) {
-      console.log(
-        "Admin credentials are not configured in environment variables."
+      console.warn(
+        "ADMIN_USERNAME or ADMIN_PASSWORD is missing."
       );
+
       return;
     }
 
-    const existingUser = await User.findOne({
+    const existingAdmin = await User.findOne({
       where: { username },
     });
 
-    if (existingUser) {
-      console.log("Admin user already exists.");
+    if (!existingAdmin) {
+      const passwordHash = await bcrypt.hash(
+        password,
+        10
+      );
+
+      await User.create({
+        username,
+        passwordHash,
+      });
+
+      console.log(
+        "Admin user created successfully."
+      );
+
       return;
     }
 
-    const passwordHash = await bcrypt.hash(password, 12);
+    const passwordMatches = await bcrypt.compare(
+      password,
+      existingAdmin.passwordHash
+    );
 
-    await User.create({
-      username,
-      passwordHash,
-    });
+    if (!passwordMatches) {
+      const newPasswordHash = await bcrypt.hash(
+        password,
+        10
+      );
 
-    console.log("Admin user created successfully.");
+      await existingAdmin.update({
+        passwordHash: newPasswordHash,
+      });
+
+      console.log(
+        "Admin password synchronized successfully."
+      );
+    } else {
+      console.log(
+        "Admin user already exists."
+      );
+    }
   } catch (error) {
-    console.error("Unable to create admin user:", error);
+    console.error(
+      "Unable to create/update admin user:",
+      error
+    );
+
+    throw error;
   }
 };
 
