@@ -1,10 +1,11 @@
 import { Routes, Route } from "react-router-dom";
-
+import ProductDetailPage from "./pages/products/ProductDetailPage";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import ProductsPage from "./pages/products/ProductsPage";
 import AddProductPage from "./pages/products/AddProductPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import EditProductPage from "./pages/products/EditProductPage";
 
 const App = () => {
   return (
@@ -40,6 +41,22 @@ const App = () => {
           </ProtectedRoute>
         }
       />
+      <Route
+  path="/products/:id"
+  element={
+    <ProtectedRoute>
+      <ProductDetailPage />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/products/:id/edit"
+  element={
+    <ProtectedRoute>
+      <EditProductPage />
+    </ProtectedRoute>
+  }
+/>
     </Routes>
   );
 };
