@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import api from "../../api/api";
 
 const ProductsPage = () => {
+  const [searchParams] = useSearchParams();
+
+const lowStockOnly =
+  searchParams.get("lowStock") === "true";
   const [products, setProducts] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
   const [search, setSearch] = useState("");
@@ -48,11 +52,21 @@ useEffect(() => {
           params.supplierId = supplierId;
         }
 
-        const response = await api.get("/products", {
-          params,
-        });
+     const response = await api.get("/products", {
+  params,
+});
 
-        setProducts(response.data.data);
+const productData = response.data.data;
+
+if (lowStockOnly) {
+  setProducts(
+    productData.filter(
+      (product) => product.quantity < 5
+    )
+  );
+} else {
+  setProducts(productData);
+}
       } catch (error) {
         setError(
           error.response?.data?.message ||
@@ -67,7 +81,7 @@ useEffect(() => {
   }, 300);
 
   return () => clearTimeout(timer);
-}, [search, supplierId]);
+}, [search, supplierId, lowStockOnly]);
   return (
     <div className="page-shell">
       <section className="products-panel">
@@ -134,6 +148,15 @@ useEffect(() => {
             ))}
           </select>
         </div>
+        {lowStockOnly && (
+  <div className="low-stock-filter">
+    <span>Showing products below 5 units</span>
+
+    <Link to="/products">
+      Show all products
+    </Link>
+  </div>
+)}
 
         {error && (
           <div className="error-message">

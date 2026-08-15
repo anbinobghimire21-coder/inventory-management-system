@@ -100,13 +100,16 @@ const DashboardPage = () => {
   </p>
 </Link>
 
-          <div className="quick-card">
-            <span>03</span>
-            <h3>Low Stock</h3>
-            <p>
-              Quickly identify products below five units.
-            </p>
-          </div>
+      <Link
+  to="/products?lowStock=true"
+  className="quick-card"
+>
+  <span>03</span>
+  <h3>Low Stock</h3>
+  <p>
+    Quickly identify products below five units.
+  </p>
+</Link>    
         </div>
       </section>
     </div>

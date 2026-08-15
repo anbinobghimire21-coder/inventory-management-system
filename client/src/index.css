@@ -818,3 +818,20 @@ a:hover {
 .empty-state p {
   color: #718075;
 }
+.low-stock-filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff3f1;
+  border: 1px solid #efcbc6;
+  color: #9b302a;
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  font-size: 13px;
+}
+
+.low-stock-filter a {
+  font-weight: 600;
+  color: #7f2823;
+}
