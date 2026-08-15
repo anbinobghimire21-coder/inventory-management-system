@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import api from "../../api/api";
+import api, {
+  serverBaseUrl,
+} from "../../api/api";
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -119,7 +121,7 @@ const ProductDetailPage = () => {
         <div className="product-detail-grid">
           <div className="detail-image-wrap">
             <img
-              src={`http://localhost:5001/${product.imagePath}`}
+              src={`${serverBaseUrl}/${product.imagePath}`}
               alt={product.name}
             />
 
