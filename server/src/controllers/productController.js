@@ -4,13 +4,19 @@ const path = require("path");
 
 const { Product, Supplier } = require("../models");
 
+const {
+  uploadsDirectory,
+} = require("../config/storage");
+
 const deleteImageFile = (imagePath) => {
   if (!imagePath) return;
 
+  const relativeImagePath =
+    imagePath.replace(/^uploads[\\/]/, "");
+
   const fullPath = path.join(
-    __dirname,
-    "../..",
-    imagePath
+    uploadsDirectory,
+    relativeImagePath
   );
 
   if (fs.existsSync(fullPath)) {

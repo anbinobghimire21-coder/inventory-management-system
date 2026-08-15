@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import api from "../../api/api";
+import api, {
+  serverBaseUrl,
+} from "../../api/api";
 
 const ProductsPage = () => {
   const [searchParams] = useSearchParams();
@@ -177,10 +179,10 @@ if (lowStockOnly) {
                   key={product.id}
                 >
                   <div className="product-image-wrap">
-                    <img
-                      src={`http://localhost:5001/${product.imagePath}`}
-                      alt={product.name}
-                    />
+                   <img
+  src={`${serverBaseUrl}/${product.imagePath}`}
+  alt={product.name}
+/>
 
                     {lowStock && (
                       <span className="low-stock">

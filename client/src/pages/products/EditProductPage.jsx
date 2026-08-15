@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import api from "../../api/api";
+import api, {
+  serverBaseUrl,
+} from "../../api/api";
 
 const EditProductPage = () => {
   const { id } = useParams();
@@ -299,7 +301,7 @@ const EditProductPage = () => {
               <p>Current image</p>
 
               <img
-                src={`http://localhost:5001/${existingImage}`}
+               src={`${serverBaseUrl}/${existingImage}`}
                 alt="Current product"
               />
             </div>

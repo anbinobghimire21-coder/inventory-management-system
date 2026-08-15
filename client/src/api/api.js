@@ -1,24 +1,33 @@
 import axios from "axios";
 
+const apiUrl =
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:5001/api";
+
+export const serverBaseUrl =
+  apiUrl.replace(/\/api\/?$/, "");
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: apiUrl,
 });
 
+// Automatically attach JWT to protected requests
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token =
+      localStorage.getItem("token");
 
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization =
+        `Bearer ${token}`;
     }
 
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
+// Automatically log out when JWT expires
 api.interceptors.response.use(
   (response) => response,
 
@@ -27,7 +36,9 @@ api.interceptors.response.use(
       localStorage.removeItem("token");
       localStorage.removeItem("user");
 
-      if (window.location.pathname !== "/login") {
+      if (
+        window.location.pathname !== "/login"
+      ) {
         window.location.href = "/login";
       }
     }

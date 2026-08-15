@@ -1,36 +1,78 @@
 const express = require("express");
 const cors = require("cors");
-const path = require("path");
 const multer = require("multer");
+
 const authRoutes = require("./routes/authRoutes");
 const authMiddleware = require("./middleware/authMiddleware");
 const supplierRoutes = require("./routes/supplierRoutes");
 const productRoutes = require("./routes/productRoutes");
 
+const {
+  uploadsDirectory,
+} = require("./config/storage");
+
 const app = express();
 
-// General middleware
+// --------------------------------------------------
+// CORS configuration
+// --------------------------------------------------
 
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+const clientOrigin =
+  process.env.CLIENT_URL ||
+  "http://localhost:5173";
 
-// Make uploaded images accessible through the browser
 app.use(
-  "/uploads",
-  express.static(path.join(__dirname, "../uploads"))
+  cors({
+    origin: clientOrigin,
+  })
 );
 
-// Health check
+// --------------------------------------------------
+// General middleware
+// --------------------------------------------------
+
+app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
+
+// --------------------------------------------------
+// Uploaded product images
+// --------------------------------------------------
+
+// Locally:
+// server/uploads/
+//
+// Railway:
+// persistent volume/uploads/
+app.use(
+  "/uploads",
+  express.static(uploadsDirectory)
+);
+
+// --------------------------------------------------
+// Public health-check route
+// --------------------------------------------------
+
 app.get("/api/health", (req, res) => {
   res.status(200).json({
     success: true,
-    message: "Inventory Management API is running",
+    message:
+      "Inventory Management API is running",
   });
 });
 
-// API routes
+// --------------------------------------------------
+// Public authentication routes
+// --------------------------------------------------
+
 app.use("/api/auth", authRoutes);
+
+// --------------------------------------------------
+// Protected supplier routes
+// --------------------------------------------------
 
 app.use(
   "/api/suppliers",
@@ -38,13 +80,20 @@ app.use(
   supplierRoutes
 );
 
+// --------------------------------------------------
+// Protected product routes
+// --------------------------------------------------
+
 app.use(
   "/api/products",
   authMiddleware,
   productRoutes
 );
 
-// 404 handler
+// --------------------------------------------------
+// API 404 handler
+// --------------------------------------------------
+
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -52,15 +101,20 @@ app.use((req, res) => {
   });
 });
 
+// --------------------------------------------------
 // Global error handler
+// --------------------------------------------------
+
 app.use((error, req, res, next) => {
   console.error("Server error:", error);
 
+  // Multer-specific errors
   if (error instanceof multer.MulterError) {
     if (error.code === "LIMIT_FILE_SIZE") {
       return res.status(400).json({
         success: false,
-        message: "Product image must not exceed 5 MB.",
+        message:
+          "Product image must not exceed 5 MB.",
       });
     }
 
@@ -70,6 +124,7 @@ app.use((error, req, res, next) => {
     });
   }
 
+  // Invalid image type
   if (
     error.message ===
     "Only JPG, PNG and WEBP image files are allowed."
@@ -80,7 +135,8 @@ app.use((error, req, res, next) => {
     });
   }
 
-  res.status(500).json({
+  // General server error
+  return res.status(500).json({
     success: false,
     message: "Internal server error.",
   });
